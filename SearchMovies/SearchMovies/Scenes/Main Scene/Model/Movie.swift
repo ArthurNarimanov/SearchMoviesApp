@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Movie {
+struct Movie: Decodable {
 	let id: Int
 	let posterPath: String
 	let backdrop: String
@@ -15,9 +15,7 @@ struct Movie {
 	let releaseDate: String
 	let rating: Double
 	let overview: String
-}
-
-extension Movie: Decodable {
+	let credits: Credits?
 	
 	enum MovieCodingKeys: String, CodingKey {
 		case id
@@ -27,8 +25,8 @@ extension Movie: Decodable {
 		case releaseDate = "release_date"
 		case rating = "vote_average"
 		case overview
+		case credits
 	}
-	
 	
 	init(from decoder: Decoder) throws {
 		let movieContainer = try decoder.container(keyedBy: MovieCodingKeys.self)
@@ -40,31 +38,6 @@ extension Movie: Decodable {
 		releaseDate = try movieContainer.decode(String.self, forKey: .releaseDate)
 		rating = try movieContainer.decode(Double.self, forKey: .rating)
 		overview = try movieContainer.decode(String.self, forKey: .overview)
-	}
-}
-
-struct MovieApiResponse {
-	let page: Int
-	let numberOfResults: Int
-	let numberOfPages: Int
-	let movies: [Movie]
-}
-
-extension MovieApiResponse: Decodable {
-	
-	private enum MovieApiResponseCodingKeys: String, CodingKey {
-		case page
-		case numberOfResults = "total_results"
-		case numberOfPages = "total_pages"
-		case movies = "results"
-	}
-	
-	init(from decoder: Decoder) throws {
-		let container = try decoder.container(keyedBy: MovieApiResponseCodingKeys.self)
-		
-		page = try container.decode(Int.self, forKey: .page)
-		numberOfResults = try container.decode(Int.self, forKey: .numberOfResults)
-		numberOfPages = try container.decode(Int.self, forKey: .numberOfPages)
-		movies = try container.decode([Movie].self, forKey: .movies)
+		credits = try? movieContainer.decode(Credits.self, forKey: .credits)
 	}
 }

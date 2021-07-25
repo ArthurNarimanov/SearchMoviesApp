@@ -37,7 +37,7 @@ class MainPresenter: NSObject, MainPresenterProtocol {
 	}
 	
 	func viewIsReady() {
-		networkManager.getNewMovies(page: 1) { [weak self] (movies, result) in
+		networkManager.getNewMovies(page: 1) { [weak self] (movies, _) in
 			guard let _self = self,
 				  let movies = movies else { return }
 			DispatchQueue.main.async {
@@ -61,7 +61,7 @@ extension MainPresenter {
 																			 poster: #imageLiteral(resourceName: "notImage"))
 		cell.content(by: model)
 		
-		posterNetworkManager.getMidleImage(by: movie.posterPath) { (data, result) in
+		posterNetworkManager.getMiddleImage(by: movie.posterPath) { (data, _) in
 			if let data = data, let poster =  UIImage(data: data) {
 				cell.setPoster(by: poster)
 			}
@@ -76,5 +76,11 @@ extension MainPresenter {
 		let width: CGFloat = (UIScreen.main.bounds.width - 50) / 3
 		let height: CGFloat = width * 1.5 + 40
 		return CGSize(width: width, height: height)
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		let id = movies[indexPath.item].id
+		let detailViewController = MainBulder.getDetailMovieVC(by: id)
+		view.pushView(detailViewController)
 	}
 }

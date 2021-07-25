@@ -9,7 +9,7 @@ import UIKit
 
 protocol Buildable {
 	static func getMainVC() -> UIViewController
-	static func getDetailMovieVC() -> UIViewController
+	static func getDetailMovieVC(by id: Int) -> UIViewController
 }
 
 struct MainBulder: Buildable {
@@ -23,9 +23,15 @@ struct MainBulder: Buildable {
 		return vc
 	}
 	
-	static func getDetailMovieVC() -> UIViewController {
+	static func getDetailMovieVC(by id: Int) -> UIViewController {
 		let vc = DetailMovieViewController()
-		vc.presenter = DetailMoviePresenter()
+		let networkManager = MovieNetworkManager()
+		let posterNetworkManager = PosterNetworkManager()
+		let presenter = DetailMoviePresenter(networkManager: networkManager,
+											 posterNetworkManager: posterNetworkManager,
+											 view: vc,
+											 by: id)
+		vc.presenter = presenter
 		return vc
 	}
 }

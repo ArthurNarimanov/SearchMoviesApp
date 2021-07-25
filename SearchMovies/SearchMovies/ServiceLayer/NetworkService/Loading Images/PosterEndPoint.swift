@@ -8,7 +8,7 @@
 import Foundation
 
 public enum PosterAPI {
-	case midleImage(path: String)
+	case middleImage(path: String)
 	case largeImage(path: String)
 }
 
@@ -25,7 +25,7 @@ extension PosterAPI: EndPointType {
 	
 	var path: String {
 		switch self {
-			case .midleImage(path: let path):
+			case .middleImage(path: let path):
 				return "w200/\(path)"
 			case .largeImage(path: let path):
 				return "w500/\(path)"

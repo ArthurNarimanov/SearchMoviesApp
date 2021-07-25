@@ -9,6 +9,7 @@ import UIKit
 
 protocol MainViewProtocol: class {
 	func updateContent()
+	func pushView(_ view: UIViewController)
 }
 
 class MainViewController: UIViewController, MainViewProtocol {
@@ -36,6 +37,9 @@ class MainViewController: UIViewController, MainViewProtocol {
 		collectionView.reloadData()
 	}
 	
+	func pushView(_ view: UIViewController) {
+		self.navigationController?.pushViewController(view, animated: true)
+	}
 }
 
 private extension MainViewController {

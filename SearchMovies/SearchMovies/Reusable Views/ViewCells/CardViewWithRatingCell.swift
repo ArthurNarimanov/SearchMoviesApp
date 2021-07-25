@@ -51,7 +51,7 @@ class CardViewWithRatingCell: CardViewCell {
 		poster.image = model.poster
 	}
 	
-	public func setPoster(by image: UIImage?) {
+	public override func setPoster(by image: UIImage?) {
 		self.poster.image = image
 	}
 }

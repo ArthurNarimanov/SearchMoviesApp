@@ -12,6 +12,7 @@ public enum MovieApi {
 	case popular(page: Int)
 	case newMovies(page: Int)
 	case video(id: Int)
+	case movie(id: Int)
 }
 
 extension MovieApi: EndPointType {
@@ -39,6 +40,8 @@ extension MovieApi: EndPointType {
 				return "now_playing"
 			case .video(let id):
 				return "\(id)/videos"
+			case .movie(let id):
+				return "\(id)"
 		}
 	}
 	
@@ -51,8 +54,17 @@ extension MovieApi: EndPointType {
 			case .newMovies(let page):
 				return .requestParameters(bodyParameters: nil,
 										  bodyEncoding: .urlEncoding,
-										  urlParameters: ["page": page,
-														  "api_key": MovieNetworkManager.MovieAPIKey])
+										  urlParameters: [
+											"page": page,
+											"api_key": MovieNetworkManager.MovieAPIKey
+										  ])
+			case .movie(_):
+				return .requestParameters(bodyParameters: nil,
+										  bodyEncoding: .urlEncoding,
+										  urlParameters: [
+											"api_key": MovieNetworkManager.MovieAPIKey,
+											"append_to_response": "credits"
+										  ])
 			default:
 				return .request
 		}

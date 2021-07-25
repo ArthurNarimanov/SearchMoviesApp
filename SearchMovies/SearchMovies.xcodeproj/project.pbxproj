@@ -16,6 +16,8 @@
 		64066F6726AD60010055EBF2 /* NetworkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64066F6626AD60010055EBF2 /* NetworkRouter.swift */; };
 		6413398026AD4C9C00349C89 /* DetailMoviePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6413397F26AD4C9C00349C89 /* DetailMoviePresenter.swift */; };
 		6413398826AD50D500349C89 /* CardViewWithRatingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6413398726AD50D500349C89 /* CardViewWithRatingCell.swift */; };
+		644BEE9F26AE2B8F00C06CBC /* Credits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644BEE9E26AE2B8F00C06CBC /* Credits.swift */; };
+		644BEEA426AE2BA900C06CBC /* MovieApiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644BEEA326AE2BA900C06CBC /* MovieApiResponse.swift */; };
 		645133BE26AC1D0600D2BC56 /* CardCellAsserts.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 645133BD26AC1D0600D2BC56 /* CardCellAsserts.xcassets */; };
 		645133C326AC21B300D2BC56 /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645133C226AC21B300D2BC56 /* RatingView.swift */; };
 		6464345026AC168F00A9806F /* CardViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6464344F26AC168F00A9806F /* CardViewCell.swift */; };
@@ -63,6 +65,8 @@
 		64066F6626AD60010055EBF2 /* NetworkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRouter.swift; sourceTree = "<group>"; };
 		6413397F26AD4C9C00349C89 /* DetailMoviePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMoviePresenter.swift; sourceTree = "<group>"; };
 		6413398726AD50D500349C89 /* CardViewWithRatingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewWithRatingCell.swift; sourceTree = "<group>"; };
+		644BEE9E26AE2B8F00C06CBC /* Credits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credits.swift; sourceTree = "<group>"; };
+		644BEEA326AE2BA900C06CBC /* MovieApiResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieApiResponse.swift; sourceTree = "<group>"; };
 		645133BD26AC1D0600D2BC56 /* CardCellAsserts.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CardCellAsserts.xcassets; sourceTree = "<group>"; };
 		645133C226AC21B300D2BC56 /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		6464344F26AC168F00A9806F /* CardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewCell.swift; sourceTree = "<group>"; };
@@ -126,7 +130,7 @@
 		64066F3826AD57FD0055EBF2 /* NetworkService */ = {
 			isa = PBXGroup;
 			children = (
-				64929DB126ADF0BF00C3940B /* Loading Poster  */,
+				64929DB126ADF0BF00C3940B /* Loading Images */,
 				64DD439426ADCAA20031F1A0 /* Movie API */,
 				64066F6526AD5FDB0055EBF2 /* NetworkRouter */,
 				64066F5A26AD5E7F0055EBF2 /* Encoding */,
@@ -212,7 +216,7 @@
 		6464345E26AC179D00A9806F /* Main Scene */ = {
 			isa = PBXGroup;
 			children = (
-				64D2EFCA26AC701A0045521B /* Model */,
+				647A57EC26ACA49A0024EA11 /* Model */,
 				64D2EFC926AC70130045521B /* Presenter */,
 				64D2EFC526AC700C0045521B /* Views */,
 			);
@@ -230,7 +234,6 @@
 		647A57DE26ACA4460024EA11 /* Detail Movie View  */ = {
 			isa = PBXGroup;
 			children = (
-				647A57EC26ACA49A0024EA11 /* Model */,
 				647A57EB26ACA4930024EA11 /* Presenter */,
 				647A57E426ACA4850024EA11 /* Views */,
 			);
@@ -257,6 +260,8 @@
 			isa = PBXGroup;
 			children = (
 				64D7300C26ADD2E200A82A8F /* Movie.swift */,
+				644BEE9E26AE2B8F00C06CBC /* Credits.swift */,
+				644BEEA326AE2BA900C06CBC /* MovieApiResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -311,13 +316,13 @@
 			path = SearchMoviesUITests;
 			sourceTree = "<group>";
 		};
-		64929DB126ADF0BF00C3940B /* Loading Poster  */ = {
+		64929DB126ADF0BF00C3940B /* Loading Images */ = {
 			isa = PBXGroup;
 			children = (
 				64929DAC26ADEFFD00C3940B /* PosterNetworkManager.swift */,
 				64929DB826ADF0FA00C3940B /* PosterEndPoint.swift */,
 			);
-			path = "Loading Poster ";
+			path = "Loading Images";
 			sourceTree = "<group>";
 		};
 		64D2EFC526AC700C0045521B /* Views */ = {
@@ -334,13 +339,6 @@
 				64D2EFD426AC73650045521B /* MainPresenter.swift */,
 			);
 			path = Presenter;
-			sourceTree = "<group>";
-		};
-		64D2EFCA26AC701A0045521B /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		64D2EFCE26AC711C0045521B /* DI */ = {
@@ -500,6 +498,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				64D7300D26ADD2E300A82A8F /* Movie.swift in Sources */,
+				644BEE9F26AE2B8F00C06CBC /* Credits.swift in Sources */,
 				64066F6126AD5EAA0055EBF2 /* JSONParameterEncoder.swift in Sources */,
 				6413398026AD4C9C00349C89 /* DetailMoviePresenter.swift in Sources */,
 				6464346426AC182200A9806F /* IdentifiableClass.swift in Sources */,
@@ -508,6 +507,7 @@
 				64D2EFD026AC71330045521B /* MainBuilder.swift in Sources */,
 				64066F3D26AD5B2D0055EBF2 /* MovieNetworkManager.swift in Sources */,
 				6464345026AC168F00A9806F /* CardViewCell.swift in Sources */,
+				644BEEA426AE2BA900C06CBC /* MovieApiResponse.swift in Sources */,
 				64066F5026AD5DD20055EBF2 /* NetworkService+Typealias.swift in Sources */,
 				64929DAD26ADEFFD00C3940B /* PosterNetworkManager.swift in Sources */,
 				647A57E026ACA47E0024EA11 /* DetailMovieViewController.swift in Sources */,

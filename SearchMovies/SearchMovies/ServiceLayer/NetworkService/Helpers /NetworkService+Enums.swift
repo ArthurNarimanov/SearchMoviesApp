@@ -45,7 +45,7 @@ public enum NetworkEnvironment {
 	case staging
 }
 
-public enum NetworkResponceResult: String {
+public enum NetworkResponseResult: String {
 	case success
 	case authenticationError = "You need to be authenticated first."
 	case badRequest = "Bad request."
