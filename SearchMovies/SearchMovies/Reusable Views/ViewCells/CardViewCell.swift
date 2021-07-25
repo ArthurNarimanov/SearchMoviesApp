@@ -6,10 +6,10 @@
 //
 
 import UIKit
-
-final class CardCollectionViewCell: UICollectionViewCell {
+/// UICollectionViewCell
+class CardViewCell: UICollectionViewCell {
 	
-	private let poster: UIImageView = {
+	internal let poster: UIImageView = {
 		let imageView = UIImageView()
 		imageView.translatesAutoresizingMaskIntoConstraints = false
 		imageView.contentMode = .scaleToFill
@@ -20,7 +20,7 @@ final class CardCollectionViewCell: UICollectionViewCell {
 		return imageView
 	}()
 	
-	private let title: UILabel = {
+	internal let title: UILabel = {
 		let title = UILabel()
 		title.translatesAutoresizingMaskIntoConstraints = false
 		title.text = "Майор Гром: Чумной Доктор"
@@ -30,12 +30,6 @@ final class CardCollectionViewCell: UICollectionViewCell {
 		title.adjustsFontSizeToFitWidth = true
 		title.textAlignment = .left
 		return title
-	}()
-	
-	private let rating: RatingView = {
-		let rating = RatingView()
-		rating.translatesAutoresizingMaskIntoConstraints = false
-		return rating
 	}()
 	
 	override init(frame: CGRect) {
@@ -49,14 +43,12 @@ final class CardCollectionViewCell: UICollectionViewCell {
 	}
 }
 
-private extension CardCollectionViewCell {
+private extension CardViewCell {
 	func setupUI() {
 		addSubview(poster)
 		addSubview(title)
-		addSubview(rating)
 		
 		setConstraints()
-		rating.setGrade(by: 80)
 	}
 	
 	func setConstraints() {
@@ -70,11 +62,6 @@ private extension CardCollectionViewCell {
 			title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 4),
 			title.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
 			title.heightAnchor.constraint(equalToConstant: 30),
-			
-			rating.bottomAnchor.constraint(equalTo: title.topAnchor, constant: 4),
-			rating.trailingAnchor.constraint(equalTo: poster.trailingAnchor, constant: -4),
-			rating.widthAnchor.constraint(equalToConstant: bounds.width * 0.22),
-			rating.heightAnchor.constraint(equalToConstant: bounds.width * 0.22),
 		])
 	}
 }

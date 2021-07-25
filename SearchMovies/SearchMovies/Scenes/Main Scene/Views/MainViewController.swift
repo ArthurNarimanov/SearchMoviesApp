@@ -8,6 +8,8 @@
 import UIKit
 
 class MainViewController: UIViewController {
+	
+	var presenter: MainPresenterProtocol!
 
 	private let collectionView: UICollectionView = {
 		let layout = UICollectionViewFlowLayout()
@@ -36,9 +38,10 @@ private extension MainViewController {
 	}
 	
 	func setupCollectionView() {
-		collectionView.delegate = self
-		collectionView.dataSource = self
-		collectionView.register(CardCollectionViewCell.self, forCellWithReuseIdentifier: CardCollectionViewCell.id)
+		collectionView.delegate = presenter
+		collectionView.dataSource = presenter
+		collectionView.register(presenter.getCellType(),
+								forCellWithReuseIdentifier: presenter.getCellId())
 	}
 	
 	func setConstraints() {
@@ -48,24 +51,5 @@ private extension MainViewController {
 			collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
 			collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 		])
-	}
-}
-
-extension MainViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return 50
-	}
-	
-	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardCollectionViewCell.id, for: indexPath)
-		return cell
-	}
-	
-	func collectionView(_ collectionView: UICollectionView,
-						layout collectionViewLayout: UICollectionViewLayout,
-						sizeForItemAt indexPath: IndexPath) -> CGSize {
-		let width: CGFloat = (UIScreen.main.bounds.width - 50) / 3
-		let height: CGFloat = width * 1.5 + 40
-		return CGSize(width: width, height: height)
 	}
 }

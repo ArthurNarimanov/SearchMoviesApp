@@ -37,9 +37,10 @@ final class RatingView: UIView {
 	private let ratingCount: UILabel = {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
-		label.font = .boldSystemFont(ofSize: 12)
+		label.font = .boldSystemFont(ofSize: 18)
 		label.numberOfLines = 1
-		label.minimumScaleFactor = 0.5
+		label.sizeToFit()
+		label.minimumScaleFactor = 0.01
 		label.adjustsFontSizeToFitWidth = true
 		label.textAlignment = .center
 		label.textColor = .white
