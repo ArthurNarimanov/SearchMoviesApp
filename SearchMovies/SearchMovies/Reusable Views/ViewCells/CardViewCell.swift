@@ -12,6 +12,11 @@ protocol CardViewModelProtocol {
 	var poster: UIImage? { get set }
 }
 
+struct CardViewModel: CardViewModelProtocol {
+	var title: String
+	var poster: UIImage? = #imageLiteral(resourceName: "notImage")
+}
+
 /// UICollectionViewCell
 class CardViewCell: UICollectionViewCell {
 	
@@ -27,14 +32,15 @@ class CardViewCell: UICollectionViewCell {
 	}()
 	
 	internal let title: UILabel = {
-		let title = UILabel()
-		title.translatesAutoresizingMaskIntoConstraints = false
-		title.font = .boldSystemFont(ofSize: 16)
-		title.numberOfLines = 0
-		title.minimumScaleFactor = 0.1
-		title.adjustsFontSizeToFitWidth = true
-		title.textAlignment = .left
-		return title
+		let label = UILabel()
+		label.translatesAutoresizingMaskIntoConstraints = false
+		label.font = .boldSystemFont(ofSize: 16)
+		label.textColor = .black
+		label.numberOfLines = 0
+		label.minimumScaleFactor = 0.1
+		label.adjustsFontSizeToFitWidth = true
+		label.textAlignment = .left
+		return label
 	}()
 	
 	override init(frame: CGRect) {
@@ -50,6 +56,10 @@ class CardViewCell: UICollectionViewCell {
 	public func content(by model: CardViewModelProtocol) {
 		title.text = model.title
 		poster.image = model.poster
+	}
+	
+	public func setPoster(by image: UIImage) {
+		poster.image = image
 	}
 }
 

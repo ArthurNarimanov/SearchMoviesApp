@@ -9,13 +9,13 @@ import Foundation
 
 struct HandleResponse {
 	///Check Responce Status by status code
-	static func getNetworkResponceResult(by statusCode: Int) -> NetworkResult<NetworkResponceResult> {
+	static func getNetworkResponceResult(by statusCode: Int) -> NetworkResult<NetworkResponseResult> {
 		switch statusCode {
 			case 200 ... 299: return .success
-			case 400 ... 500: return .failure(NetworkResponceResult.authenticationError)
-			case 501 ... 599: return .failure(NetworkResponceResult.badRequest)
-			case 600: return .failure(NetworkResponceResult.outdated)
-			default: return .failure(NetworkResponceResult.failed)
+			case 400 ... 500: return .failure(NetworkResponseResult.authenticationError)
+			case 501 ... 599: return .failure(NetworkResponseResult.badRequest)
+			case 600: return .failure(NetworkResponseResult.outdated)
+			default: return .failure(NetworkResponseResult.failed)
 		}
 	}
 }

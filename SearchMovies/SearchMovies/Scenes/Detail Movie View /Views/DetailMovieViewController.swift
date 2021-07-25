@@ -7,8 +7,13 @@
 
 import UIKit
 
-class DetailMovieViewController: UIViewController {
+protocol DetailMovieViewProtocol: class {
+	func updateData()
+	func setPoster(by image: UIImage)
+}
 
+class DetailMovieViewController: UIViewController, DetailMovieViewProtocol {
+	
 	var presenter: DetailMoviePresenterProtocol!
 	
 	private let scrollView: UIScrollView = {
@@ -17,7 +22,7 @@ class DetailMovieViewController: UIViewController {
 		scrollView.showsVerticalScrollIndicator = false
 		scrollView.alwaysBounceVertical = true
 		scrollView.alwaysBounceHorizontal = false
-		scrollView.backgroundColor = .systemYellow
+		scrollView.backgroundColor = .white
 		scrollView.bounces = true
 		scrollView.contentInset = UIEdgeInsets(top: 20, left: 0,
 											   bottom: 20, right: 0)
@@ -34,7 +39,7 @@ class DetailMovieViewController: UIViewController {
 	private let poster: UIImageView = {
 		let imageView = UIImageView()
 		imageView.translatesAutoresizingMaskIntoConstraints = false
-		imageView.image = #imageLiteral(resourceName: "examplePoster") // remove me
+		imageView.image = #imageLiteral(resourceName: "notImage")
 		imageView.contentMode = .scaleAspectFit
 		imageView.layer.cornerRadius = 6
 		imageView.layer.masksToBounds = false
@@ -46,30 +51,10 @@ class DetailMovieViewController: UIViewController {
 		let label = UILabel()
 		label.numberOfLines = 0
 		label.font = .boldSystemFont(ofSize: 24)
+		label.textColor = .black
 		label.minimumScaleFactor = 0.5
 		label.adjustsFontSizeToFitWidth = true
 		label.adjustsFontForContentSizeCategory = true
-		label.sizeToFit()
-		label.translatesAutoresizingMaskIntoConstraints = false
-		return label
-	}()
-	
-	private let directorTitle: UILabel = {
-		let label = UILabel()
-		label.text = "Director"
-		label.numberOfLines = 0
-		label.font = .boldSystemFont(ofSize: 20)
-		label.minimumScaleFactor = 0.5
-		label.adjustsFontSizeToFitWidth = true
-		label.sizeToFit()
-		label.translatesAutoresizingMaskIntoConstraints = false
-		return label
-	}()
-	
-	private let directorSubtitle: UILabel = {
-		let label = UILabel()
-		label.numberOfLines = 0
-		label.font = .systemFont(ofSize: 20)
 		label.sizeToFit()
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
@@ -86,6 +71,7 @@ class DetailMovieViewController: UIViewController {
 		label.text = "Overview"
 		label.numberOfLines = 0
 		label.font = .boldSystemFont(ofSize: 18)
+		label.textColor = .black
 		label.minimumScaleFactor = 0.5
 		label.adjustsFontSizeToFitWidth = true
 		label.sizeToFit()
@@ -97,6 +83,7 @@ class DetailMovieViewController: UIViewController {
 		let label = UILabel()
 		label.numberOfLines = 0
 		label.font = .systemFont(ofSize: 16)
+		label.textColor = .black
 		label.sizeToFit()
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
@@ -107,6 +94,7 @@ class DetailMovieViewController: UIViewController {
 		label.text = "Actors"
 		label.numberOfLines = 0
 		label.font = .boldSystemFont(ofSize: 18)
+		label.textColor = .black
 		label.minimumScaleFactor = 0.5
 		label.adjustsFontSizeToFitWidth = true
 		label.sizeToFit()
@@ -128,11 +116,23 @@ class DetailMovieViewController: UIViewController {
 		return collectionView
 	}()
 	
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	override func viewDidLoad() {
+		super.viewDidLoad()
 		setupUI()
-    }
-
+	}
+	
+	func updateData() {
+		collectionView.reloadData()
+		let movie = presenter.movie
+		titleLabel.text = movie?.title
+		aboutSubtitle.text = movie?.overview
+		let rating: Double = movie?.rating ?? 0
+		ratingView.setGrade(by: Int(rating * 10))
+	}
+	
+	func setPoster(by image: UIImage) {
+		self.poster.image = image
+	}
 }
 
 private extension DetailMovieViewController {
@@ -142,16 +142,13 @@ private extension DetailMovieViewController {
 		contentView.addSubview(poster)
 		contentView.addSubview(titleLabel)
 		contentView.addSubview(ratingView)
-		contentView.addSubview(directorTitle)
 		contentView.addSubview(aboutTitle)
 		contentView.addSubview(aboutSubtitle)
 		contentView.addSubview(actorsTitle)
 		contentView.addSubview(collectionView)
-		contentView.addSubview(directorSubtitle)
 		
 		setConstraints()
 		setupCollectionView()
-		ratingView.setGrade(by: 70) // remove me
 	}
 	
 	func setConstraints() {
@@ -182,14 +179,6 @@ private extension DetailMovieViewController {
 			ratingView.leadingAnchor.constraint(equalTo: poster.trailingAnchor, constant: 8),
 			ratingView.widthAnchor.constraint(equalToConstant: 40),
 			ratingView.heightAnchor.constraint(equalToConstant: 40),
-			
-			directorTitle.topAnchor.constraint(equalTo: ratingView.bottomAnchor, constant: 8),
-			directorTitle.leadingAnchor.constraint(equalTo: poster.trailingAnchor, constant: 6),
-			directorTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -6),
-			
-			directorSubtitle.topAnchor.constraint(equalTo: directorTitle.bottomAnchor, constant: 4),
-			directorSubtitle.leadingAnchor.constraint(equalTo: directorTitle.leadingAnchor),
-			directorSubtitle.trailingAnchor.constraint(equalTo: directorTitle.trailingAnchor),
 			
 			aboutTitle.topAnchor.constraint(equalTo: poster.bottomAnchor, constant: 8),
 			aboutTitle.leadingAnchor.constraint(equalTo: poster.leadingAnchor),
