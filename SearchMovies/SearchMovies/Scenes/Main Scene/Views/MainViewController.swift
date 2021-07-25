@@ -40,6 +40,7 @@ class MainViewController: UIViewController, MainViewProtocol {
 
 private extension MainViewController {
 	func setupUI() {
+		title = "New Movies"
 		view.backgroundColor = .systemYellow
 		view.addSubview(collectionView)
 		setConstraints()

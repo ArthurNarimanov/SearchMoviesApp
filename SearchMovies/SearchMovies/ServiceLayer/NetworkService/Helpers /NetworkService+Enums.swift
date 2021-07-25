@@ -7,6 +7,11 @@
 
 import Foundation
 
+enum NetworkResult<String> {
+	case success
+	case failure(String)
+}
+
 public enum HTTPMethod: String {
 	case post   = "POST"
 	case get    = "GET"

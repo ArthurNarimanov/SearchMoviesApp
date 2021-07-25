@@ -18,6 +18,7 @@ struct MainBulder: Buildable {
 		let presenter = MainPresenter()
 		presenter.networkManager = MovieNetworkManager()
 		presenter.view = vc
+		presenter.posterNetworkManager = PosterNetworkManager()
 		vc.presenter = presenter
 		return vc
 	}

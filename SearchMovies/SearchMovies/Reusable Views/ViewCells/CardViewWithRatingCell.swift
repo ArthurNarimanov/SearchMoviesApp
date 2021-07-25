@@ -11,10 +11,18 @@ protocol CardViewWithRatingModelProtocol: CardViewModelProtocol {
 	var rating: Int { get set }
 }
 
+typealias VoidImageClosure = (UIImage?) -> Void
+
 struct CardViewWithRatingModel: CardViewWithRatingModelProtocol {
 	var rating: Int
-	var poster: UIImage
+	var poster: UIImage?
 	var title: String
+	
+	internal init(rating: Int, title: String, poster: UIImage) {
+		self.rating = rating
+		self.title = title
+		self.poster = poster
+	}
 }
 
 /// UICollectionViewCell
@@ -41,6 +49,10 @@ class CardViewWithRatingCell: CardViewCell {
 		title.text = model.title
 		rating.setGrade(by: model.rating)
 		poster.image = model.poster
+	}
+	
+	public func setPoster(by image: UIImage?) {
+		self.poster.image = image
 	}
 }
 

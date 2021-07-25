@@ -9,7 +9,7 @@ import UIKit
 
 protocol CardViewModelProtocol {
 	var title: String { get set }
-	var poster: UIImage { get set }
+	var poster: UIImage? { get set }
 }
 
 /// UICollectionViewCell
@@ -18,8 +18,8 @@ class CardViewCell: UICollectionViewCell {
 	internal let poster: UIImageView = {
 		let imageView = UIImageView()
 		imageView.translatesAutoresizingMaskIntoConstraints = false
-		imageView.contentMode = .scaleToFill
-		imageView.image = #imageLiteral(resourceName: "examplePoster")
+		imageView.contentMode = .scaleAspectFit
+		imageView.image = #imageLiteral(resourceName: "notImage")
 		imageView.layer.cornerRadius = 6
 		imageView.layer.masksToBounds = false
 		imageView.clipsToBounds = true

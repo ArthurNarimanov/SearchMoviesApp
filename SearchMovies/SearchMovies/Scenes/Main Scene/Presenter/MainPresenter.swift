@@ -19,7 +19,8 @@ protocol MainPresenterProtocol: BasePresenter, UICollectionViewDelegateFlowLayou
 class MainPresenter: NSObject, MainPresenterProtocol {
 	
 	unowned var view: MainViewProtocol!
-	var networkManager: MoviNetworkManagerProtocol!
+	var networkManager: MovieNetworkManagerProtocol!
+	var posterNetworkManager: PosterNetworkProtocol!
 	
 	private var movies = [Movie]() {
 		didSet {
@@ -54,12 +55,18 @@ extension MainPresenter {
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardViewWithRatingCell.id,
 													  for: indexPath) as! CardViewWithRatingCell
-		let movie = movies[indexPath.row]
+		let movie = movies[indexPath.item]
 		let model: CardViewWithRatingModelProtocol = CardViewWithRatingModel(rating: Int(movie.rating * 10),
-																			 poster: UIImage(),
-																			 title: movie.title)
-			
+																			 title: movie.title,
+																			 poster: #imageLiteral(resourceName: "notImage"))
 		cell.content(by: model)
+		
+		posterNetworkManager.getMidleImage(by: movie.posterPath) { (data, result) in
+			if let data = data, let poster =  UIImage(data: data) {
+				cell.setPoster(by: poster)
+			}
+		}
+		
 		return cell
 	}
 	

@@ -9,16 +9,11 @@
 
 import Foundation
 
-protocol MoviNetworkManagerProtocol {
+protocol MovieNetworkManagerProtocol {
 	func getNewMovies(page: Int, completion: @escaping (_ movie: [Movie]?, _ error: NetworkResponceResult?)->())
 }
 
-enum NetworkResult<String> {
-	case success
-	case failure(String)
-}
-
-struct MovieNetworkManager: MoviNetworkManagerProtocol {
+struct MovieNetworkManager: MovieNetworkManagerProtocol {
 	static let environment: NetworkEnvironment = .production
 	static let MovieAPIKey = "" // Set key!!!
 	let router = NetworkRouter<MovieApi>()
@@ -55,17 +50,4 @@ struct MovieNetworkManager: MoviNetworkManagerProtocol {
 		}
 	}
 	
-}
-
-struct HandleResponse {
-	///Check Responce Status by status code
-	static func getNetworkResponceResult(by statusCode: Int) -> NetworkResult<NetworkResponceResult> {
-		switch statusCode {
-			case 200 ... 299: return .success
-			case 400 ... 500: return .failure(NetworkResponceResult.authenticationError)
-			case 501 ... 599: return .failure(NetworkResponceResult.badRequest)
-			case 600: return .failure(NetworkResponceResult.outdated)
-			default: return .failure(NetworkResponceResult.failed)
-		}
-	}
 }
