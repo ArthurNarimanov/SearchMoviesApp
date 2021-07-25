@@ -15,7 +15,10 @@ protocol Buildable {
 struct MainBulder: Buildable {
 	static func getMainVC() -> UIViewController {
 		let vc = MainViewController()
-		vc.presenter = MainPresenter()
+		let presenter = MainPresenter()
+		presenter.networkManager = MovieNetworkManager()
+		presenter.view = vc
+		vc.presenter = presenter
 		return vc
 	}
 	

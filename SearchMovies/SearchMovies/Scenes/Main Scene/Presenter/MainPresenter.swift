@@ -7,12 +7,26 @@
 
 import UIKit
 
-protocol MainPresenterProtocol: class, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+protocol BasePresenter: class {
+	func viewIsReady()
+}
+
+protocol MainPresenterProtocol: BasePresenter, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
 	func getCellId() -> String
 	func getCellType() -> AnyClass
 }
 
 class MainPresenter: NSObject, MainPresenterProtocol {
+	
+	unowned var view: MainViewProtocol!
+	var networkManager: MoviNetworkManagerProtocol!
+	
+	private var movies = [Movie]() {
+		didSet {
+			view.updateContent()
+		}
+	}
+	
 	func getCellType() -> AnyClass {
 		return CardViewWithRatingCell.self
 	}
@@ -20,16 +34,32 @@ class MainPresenter: NSObject, MainPresenterProtocol {
 	func getCellId() -> String {
 		return CardViewWithRatingCell.id
 	}
+	
+	func viewIsReady() {
+		networkManager.getNewMovies(page: 1) { [weak self] (movies, result) in
+			guard let _self = self,
+				  let movies = movies else { return }
+			DispatchQueue.main.async {
+				_self.movies.append(contentsOf: movies)
+			}
+		}
+	}
 }
 
 extension MainPresenter {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return 50
+		return movies.count
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardViewWithRatingCell.id,
-													  for: indexPath)
+													  for: indexPath) as! CardViewWithRatingCell
+		let movie = movies[indexPath.row]
+		let model: CardViewWithRatingModelProtocol = CardViewWithRatingModel(rating: Int(movie.rating * 10),
+																			 poster: UIImage(),
+																			 title: movie.title)
+			
+		cell.content(by: model)
 		return cell
 	}
 	

@@ -7,7 +7,11 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+protocol MainViewProtocol: class {
+	func updateContent()
+}
+
+class MainViewController: UIViewController, MainViewProtocol {
 	
 	var presenter: MainPresenterProtocol!
 
@@ -24,7 +28,12 @@ class MainViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		presenter.viewIsReady()
 		setupUI()
+	}
+	
+	func updateContent() {
+		collectionView.reloadData()
 	}
 	
 }

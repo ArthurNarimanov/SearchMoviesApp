@@ -19,7 +19,8 @@ class DetailMovieViewController: UIViewController {
 		scrollView.alwaysBounceHorizontal = false
 		scrollView.backgroundColor = .systemYellow
 		scrollView.bounces = true
-		scrollView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
+		scrollView.contentInset = UIEdgeInsets(top: 20, left: 0,
+											   bottom: 20, right: 0)
 		return scrollView
 	}()
 	
@@ -43,7 +44,6 @@ class DetailMovieViewController: UIViewController {
 	
 	private let titleLabel: UILabel = {
 		let label = UILabel()
-		label.text = "Майор Гром: Чумной Доктор" // remove me
 		label.numberOfLines = 0
 		label.font = .boldSystemFont(ofSize: 24)
 		label.minimumScaleFactor = 0.5
@@ -56,7 +56,7 @@ class DetailMovieViewController: UIViewController {
 	
 	private let directorTitle: UILabel = {
 		let label = UILabel()
-		label.text = "Director" // remove me
+		label.text = "Director"
 		label.numberOfLines = 0
 		label.font = .boldSystemFont(ofSize: 20)
 		label.minimumScaleFactor = 0.5
@@ -68,7 +68,6 @@ class DetailMovieViewController: UIViewController {
 	
 	private let directorSubtitle: UILabel = {
 		let label = UILabel()
-		label.text = "Майор Гром" // remove me
 		label.numberOfLines = 0
 		label.font = .systemFont(ofSize: 20)
 		label.sizeToFit()
@@ -96,7 +95,6 @@ class DetailMovieViewController: UIViewController {
 	
 	private let aboutSubtitle: UILabel = {
 		let label = UILabel()
-		label.text = "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
 		label.numberOfLines = 0
 		label.font = .systemFont(ofSize: 16)
 		label.sizeToFit()

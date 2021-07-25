@@ -6,6 +6,12 @@
 //
 
 import UIKit
+
+protocol CardViewModelProtocol {
+	var title: String { get set }
+	var poster: UIImage { get set }
+}
+
 /// UICollectionViewCell
 class CardViewCell: UICollectionViewCell {
 	
@@ -23,7 +29,6 @@ class CardViewCell: UICollectionViewCell {
 	internal let title: UILabel = {
 		let title = UILabel()
 		title.translatesAutoresizingMaskIntoConstraints = false
-		title.text = "Майор Гром: Чумной Доктор"
 		title.font = .boldSystemFont(ofSize: 16)
 		title.numberOfLines = 0
 		title.minimumScaleFactor = 0.1
@@ -40,6 +45,11 @@ class CardViewCell: UICollectionViewCell {
 	required init?(coder: NSCoder) {
 		assertionFailure("init(coder:) has not been implemented")
 		super.init(coder: coder)
+	}
+	
+	public func content(by model: CardViewModelProtocol) {
+		title.text = model.title
+		poster.image = model.poster
 	}
 }
 
