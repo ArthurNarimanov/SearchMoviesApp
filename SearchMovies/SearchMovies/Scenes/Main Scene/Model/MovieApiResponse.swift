@@ -9,14 +9,18 @@ import Foundation
 
 struct MovieApiResponse: Decodable {
 	let page: Int
-	let numberOfResults: Int
-	let numberOfPages: Int
-	let movies: [Movie]
+	let totalResults: Int?
+	let totalPages: Int?
+	let movies: [Movie]?
+	
+	var _totalPages: Int {
+		return totalResults ?? 0
+	}
 	
 	private enum MovieApiResponseCodingKeys: String, CodingKey {
 		case page
 		case numberOfResults = "total_results"
-		case numberOfPages = "total_pages"
+		case totalPages = "total_pages"
 		case movies = "results"
 	}
 	
@@ -24,8 +28,8 @@ struct MovieApiResponse: Decodable {
 		let container = try decoder.container(keyedBy: MovieApiResponseCodingKeys.self)
 		
 		page = try container.decode(Int.self, forKey: .page)
-		numberOfResults = try container.decode(Int.self, forKey: .numberOfResults)
-		numberOfPages = try container.decode(Int.self, forKey: .numberOfPages)
-		movies = try container.decode([Movie].self, forKey: .movies)
+		totalResults = try? container.decode(Int.self, forKey: .numberOfResults)
+		totalPages = try? container.decode(Int.self, forKey: .totalPages)
+		movies = try? container.decode([Movie].self, forKey: .movies)
 	}
 }
