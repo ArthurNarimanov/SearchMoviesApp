@@ -22,12 +22,17 @@ class MainPresenter: NSObject, MainPresenterProtocol {
 	var networkManager: MovieNetworkManagerProtocol!
 	var posterNetworkManager: PosterNetworkProtocol!
 	
+	private var isLoadingPage: Bool = false
+	private var page: Int = 1
+	private var pageTotal: Int = 1
+	
 	private var movies = [Movie]() {
 		didSet {
 			view.updateContent()
 		}
 	}
 	
+// MARK: - MainPresenterProtocol
 	func getCellType() -> AnyClass {
 		return CardViewWithRatingCell.self
 	}
@@ -37,13 +42,7 @@ class MainPresenter: NSObject, MainPresenterProtocol {
 	}
 	
 	func viewIsReady() {
-		networkManager.getNewMovies(page: 1) { [weak self] (movies, _) in
-			guard let _self = self,
-				  let movies = movies else { return }
-			DispatchQueue.main.async {
-				_self.movies.append(contentsOf: movies)
-			}
-		}
+		loadMovies(by: page)
 	}
 }
 
@@ -56,17 +55,17 @@ extension MainPresenter {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardViewWithRatingCell.id,
 													  for: indexPath) as! CardViewWithRatingCell
 		let movie = movies[indexPath.item]
-		let model: CardViewWithRatingModelProtocol = CardViewWithRatingModel(rating: Int(movie.rating * 10),
-																			 title: movie.title,
+		let model: CardViewWithRatingModelProtocol = CardViewWithRatingModel(rating: movie._rating,
+																			 title: movie.title ?? "",
 																			 poster: #imageLiteral(resourceName: "notImage"))
-		cell.content(by: model)
 		
-		posterNetworkManager.getMiddleImage(by: movie.posterPath) { (data, _) in
+		posterNetworkManager.getMiddleImage(by: movie.posterPath ?? "") { (data, _) in
 			if let data = data, let poster =  UIImage(data: data) {
 				cell.setPoster(by: poster)
 			}
 		}
-		
+
+		cell.content(by: model)
 		return cell
 	}
 	
@@ -82,5 +81,39 @@ extension MainPresenter {
 		let id = movies[indexPath.item].id
 		let detailViewController = MainBulder.getDetailMovieVC(by: id)
 		view.pushView(detailViewController)
+	}
+	
+	func scrollViewDidScroll(_ scrollView: UIScrollView) {
+		let height = scrollView.contentSize.height - scrollView.bounds.size.height
+		
+		if scrollView.contentOffset.y >= height,
+		   page < pageTotal, !isLoadingPage {
+			page += 1
+			loadMovies(by: page)
+		}
+	}
+}
+
+//MARK: - Private Methods
+private extension MainPresenter {
+	/// Load New Movies by page
+	func loadMovies(by page: Int) {
+		isLoadingPage = true
+		networkManager.getNewMovies(page: page) { [weak self] (moviesApi, result) in
+			DispatchQueue.main.async {
+			
+			guard let _self = self,
+				  let moviesApi = moviesApi,
+				  let moves = moviesApi.movies else {
+				self?.isLoadingPage = false
+				self?.page -= 1
+				return
+			}
+				_self.movies.append(contentsOf: moves)
+				_self.pageTotal = moviesApi._totalPages
+				_self.page = moviesApi.page
+				_self.isLoadingPage = false
+			}
+		}
 	}
 }

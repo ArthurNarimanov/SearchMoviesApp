@@ -10,7 +10,7 @@
 import Foundation
 
 protocol MovieNetworkManagerProtocol {
-	func getNewMovies(page: Int, completion: @escaping (_ movie: [Movie]?, _ error: NetworkResponseResult?)->())
+	func getNewMovies(page: Int, completion: @escaping (_ movie: MovieApiResponse?, _ error: NetworkResponseResult?)->())
 	func getMovie(by id: Int, completion: @escaping (_ movie: Movie?, _ error: NetworkResponseResult?)->())
 }
 
@@ -19,7 +19,7 @@ struct MovieNetworkManager: MovieNetworkManagerProtocol {
 	static let MovieAPIKey = "bf22a1f59ddb8a42ee30b5d0ca5b1f86" // Set key!!!
 	let router = NetworkRouter<MovieApi>()
 	
-	func getNewMovies(page: Int, completion: @escaping (_ movie: [Movie]?, _ error: NetworkResponseResult?)->()) {
+	func getNewMovies(page: Int, completion: @escaping (_ movie: MovieApiResponse?, _ error: NetworkResponseResult?)->()) {
 		router.request(.newMovies(page: page)) { (data, response, error) in
 			if error != nil {
 				completion(nil, NetworkResponseResult.checkNetConnection)
@@ -35,7 +35,7 @@ struct MovieNetworkManager: MovieNetworkManagerProtocol {
 						}
 						do {
 							let apiResponse = try JSONDecoder().decode(MovieApiResponse.self, from: responseData)
-							completion(apiResponse.movies, nil)
+							completion(apiResponse, nil)
 						} catch {
 							completion(nil, NetworkResponseResult.unableToDecode)
 						}

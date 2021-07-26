@@ -231,9 +231,18 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
+		646EAA7726AF5D07005FC721 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				644BEE9E26AE2B8F00C06CBC /* Credits.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		647A57DE26ACA4460024EA11 /* Detail Movie View  */ = {
 			isa = PBXGroup;
 			children = (
+				646EAA7726AF5D07005FC721 /* Model */,
 				647A57EB26ACA4930024EA11 /* Presenter */,
 				647A57E426ACA4850024EA11 /* Views */,
 			);
@@ -260,7 +269,6 @@
 			isa = PBXGroup;
 			children = (
 				64D7300C26ADD2E200A82A8F /* Movie.swift */,
-				644BEE9E26AE2B8F00C06CBC /* Credits.swift */,
 				644BEEA326AE2BA900C06CBC /* MovieApiResponse.swift */,
 			);
 			path = Model;

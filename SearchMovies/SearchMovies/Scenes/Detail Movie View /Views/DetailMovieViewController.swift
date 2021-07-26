@@ -76,6 +76,7 @@ class DetailMovieViewController: UIViewController, DetailMovieViewProtocol {
 		label.adjustsFontSizeToFitWidth = true
 		label.sizeToFit()
 		label.translatesAutoresizingMaskIntoConstraints = false
+		label.isHidden = true
 		return label
 	}()
 	
@@ -99,6 +100,7 @@ class DetailMovieViewController: UIViewController, DetailMovieViewProtocol {
 		label.adjustsFontSizeToFitWidth = true
 		label.sizeToFit()
 		label.translatesAutoresizingMaskIntoConstraints = false
+		label.isHidden = true
 		return label
 	}()
 	
@@ -122,12 +124,14 @@ class DetailMovieViewController: UIViewController, DetailMovieViewProtocol {
 	}
 	
 	func updateData() {
-		collectionView.reloadData()
-		let movie = presenter.movie
-		titleLabel.text = movie?.title
-		aboutSubtitle.text = movie?.overview
-		let rating: Double = movie?.rating ?? 0
+		guard let movie = presenter.movie else { return }
+		titleLabel.text = movie.title
+		aboutSubtitle.text = movie.overview
+		let rating: Double = movie.rating ?? 0
 		ratingView.setGrade(by: Int(rating * 10))
+		actorsTitle.isHidden = movie.credits?.cast.isEmpty ?? true
+		aboutTitle.isHidden = movie.overview?.isEmpty ?? true
+		collectionView.reloadData()
 	}
 	
 	func setPoster(by image: UIImage) {
