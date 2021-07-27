@@ -12,6 +12,7 @@ protocol Buildable {
 	static func getDetailMovieVC(by id: Int) -> UIViewController
 }
 
+/// DI Movies Views
 struct MovieBuilder: Buildable {
 	static func getMoviesVC() -> UIViewController {
 		let vc = MoviesViewController()

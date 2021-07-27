@@ -8,18 +8,21 @@
 import Foundation
 
 protocol PosterNetworkProtocol {
-	func getMiddleImage(by path: String, completion: @escaping (_ movie: Data?, _ error: NetworkResponseResult?)->())
+	func getMiddleImage(by path: String, completion: @escaping (_ movie: Data?,
+																_ error: NetworkResponseResult?)->())
 }
-
+/// Download posters from the Network
 struct PosterNetworkManager: PosterNetworkProtocol {
 	let router = NetworkRouter<PosterAPI>()
 	
-	func getMiddleImage(by path: String, completion: @escaping (_ movie: Data?, _ error: NetworkResponseResult?)->()) {
+	func getMiddleImage(by path: String, completion: @escaping (_ movie: Data?,
+																_ error: NetworkResponseResult?)->()) {
+		
 		router.request(.middleImage(path: path)) { (data, response, error) in
+			DispatchQueue.main.async {
 			if error != nil {
 				completion(nil, NetworkResponseResult.checkNetConnection)
 			}
-			DispatchQueue.main.async {
 				if let response = response as? HTTPURLResponse {
 					let result = HandleResponse.getNetworkResponseResult(by: response.statusCode)
 					switch result {
@@ -37,4 +40,5 @@ struct PosterNetworkManager: PosterNetworkProtocol {
 			}
 		}
 	}
+	
 }

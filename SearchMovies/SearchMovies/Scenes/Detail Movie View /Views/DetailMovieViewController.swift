@@ -12,7 +12,7 @@ protocol DetailMovieViewProtocol: class {
 	func setPoster(by image: UIImage)
 }
 
-class DetailMovieViewController: UIViewController, DetailMovieViewProtocol {
+final class DetailMovieViewController: UIViewController, DetailMovieViewProtocol {
 //	MARK: - Public Properties
 	var presenter: DetailMoviePresenterProtocol!
 	

@@ -44,6 +44,7 @@ final class MoviesPresenter: NSObject, MainPresenterProtocol {
 	func viewIsReady() {
 		loadMovies(by: page)
 	}
+	
 }
 
 //	MARK: - UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
@@ -99,6 +100,7 @@ extension MoviesPresenter {
 			loadMovies(by: page)
 		}
 	}
+	
 }
 
 //MARK: - Private Methods
@@ -121,4 +123,5 @@ private extension MoviesPresenter {
 			_self.isLoadingPage = false
 		}
 	}
+	
 }

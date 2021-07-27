@@ -15,7 +15,7 @@ public enum MovieApi: EndPointType {
 	case movie(id: Int)
 	
 	var environmentBaseURL : String {
-		switch MovieNetworkManager.environment {
+		switch MovieNetworkSettings.environment {
 			case .production: return "https://api.themoviedb.org/3/movie/"
 			case .qa: return "https://qa.themoviedb.org/3/movie/"
 			case .staging: return "https://staging.themoviedb.org/3/movie/"
@@ -53,13 +53,13 @@ public enum MovieApi: EndPointType {
 										  bodyEncoding: .urlEncoding,
 										  urlParameters: [
 											"page": page,
-											"api_key": MovieNetworkManager.MovieAPIKey
+											"api_key": MovieNetworkSettings.APIKey
 										  ])
 			case .movie(_):
 				return .requestParameters(bodyParameters: nil,
 										  bodyEncoding: .urlEncoding,
 										  urlParameters: [
-											"api_key": MovieNetworkManager.MovieAPIKey,
+											"api_key": MovieNetworkSettings.APIKey,
 											"append_to_response": "credits"
 										  ])
 			default:

@@ -15,8 +15,6 @@ protocol MovieNetworkManagerProtocol {
 }
 
 struct MovieNetworkManager: MovieNetworkManagerProtocol {
-	static let environment: NetworkEnvironment = .production
-	static let MovieAPIKey = "bf22a1f59ddb8a42ee30b5d0ca5b1f86" // Set key!!!
 	let router = NetworkRouter<MovieApi>()
 	
 	func getNewMovies(page: Int, completion: @escaping (_ movie: MovieApiResponse?, _ error: NetworkResponseResult?)->()) {
@@ -76,4 +74,5 @@ struct MovieNetworkManager: MovieNetworkManagerProtocol {
 			}
 		}
 	}
+	
 }

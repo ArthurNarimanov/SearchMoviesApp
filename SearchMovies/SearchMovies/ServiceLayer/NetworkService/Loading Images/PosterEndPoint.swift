@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Setting up to receive posters
 public enum PosterAPI: EndPointType {
 	case middleImage(path: String)
 	case largeImage(path: String)

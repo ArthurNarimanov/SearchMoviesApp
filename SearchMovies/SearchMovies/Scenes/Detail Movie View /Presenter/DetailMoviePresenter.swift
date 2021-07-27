@@ -15,7 +15,7 @@ protocol DetailMoviePresenterProtocol: class,
 	var movie: Movie? { get }
 }
 
-class DetailMoviePresenter: NSObject,  DetailMoviePresenterProtocol {
+final class DetailMoviePresenter: NSObject,  DetailMoviePresenterProtocol {
 	//MARK: - Private Properties
 	private(set) var movie: Movie? {
 		didSet {
@@ -31,9 +31,7 @@ class DetailMoviePresenter: NSObject,  DetailMoviePresenterProtocol {
 	
 	private var networkManager: MovieNetworkManagerProtocol
 	private var posterNetworkManager: PosterNetworkProtocol
-	
-	//MARK: - Public Properties
-	unowned var view: DetailMovieViewProtocol
+	private unowned var view: DetailMovieViewProtocol
 	
 	init(networkManager: MovieNetworkManagerProtocol,
 		 posterNetworkManager: PosterNetworkProtocol,
@@ -97,6 +95,7 @@ extension DetailMoviePresenter: UICollectionViewDataSource,
 		let height: CGFloat = width * 1.5 + 40
 		return CGSize(width: width, height: height)
 	}
+	
 }
 
 //MARK: - Private Methods
@@ -117,4 +116,5 @@ private extension DetailMoviePresenter {
 			_self.casts = movie?.credits?.cast ?? []
 		}
 	}
+	
 }
