@@ -7,19 +7,9 @@
 
 import UIKit
 
-protocol CardViewModelProtocol {
-	var title: String { get set }
-	var poster: UIImage? { get set }
-}
-
-struct CardViewModel: CardViewModelProtocol {
-	var title: String
-	var poster: UIImage? = #imageLiteral(resourceName: "notImage")
-}
-
 /// UICollectionViewCell
-class CardViewCell: UICollectionViewCell {
-	
+public class CardViewCell: UICollectionViewCell {
+	//MARK: - Internal Properties
 	internal let poster: UIImageView = {
 		let imageView = UIImageView()
 		imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -43,6 +33,7 @@ class CardViewCell: UICollectionViewCell {
 		return label
 	}()
 	
+	//MARK: - Life cycle
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
@@ -53,16 +44,18 @@ class CardViewCell: UICollectionViewCell {
 		super.init(coder: coder)
 	}
 	
-	public func content(by model: CardViewModelProtocol) {
+	//MARK: - Public Methods
+	func content(by model: CardViewModelProtocol) {
 		title.text = model.title
 		poster.image = model.poster
 	}
 	
-	public func setPoster(by image: UIImage) {
+	func setPoster(by image: UIImage) {
 		poster.image = image
 	}
 }
 
+//MARK: - Private Methods
 private extension CardViewCell {
 	func setupUI() {
 		addSubview(poster)

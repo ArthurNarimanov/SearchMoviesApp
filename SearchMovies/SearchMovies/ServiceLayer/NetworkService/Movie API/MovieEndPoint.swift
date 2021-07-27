@@ -7,18 +7,15 @@
 
 import Foundation
 
-public enum MovieApi {
+public enum MovieApi: EndPointType {
 	case recommended(id: Int)
 	case popular(page: Int)
 	case newMovies(page: Int)
 	case video(id: Int)
 	case movie(id: Int)
-}
-
-extension MovieApi: EndPointType {
 	
 	var environmentBaseURL : String {
-		switch MovieNetworkManager.environment {
+		switch MovieNetworkSettings.environment {
 			case .production: return "https://api.themoviedb.org/3/movie/"
 			case .qa: return "https://qa.themoviedb.org/3/movie/"
 			case .staging: return "https://staging.themoviedb.org/3/movie/"
@@ -56,13 +53,13 @@ extension MovieApi: EndPointType {
 										  bodyEncoding: .urlEncoding,
 										  urlParameters: [
 											"page": page,
-											"api_key": MovieNetworkManager.MovieAPIKey
+											"api_key": MovieNetworkSettings.APIKey
 										  ])
 			case .movie(_):
 				return .requestParameters(bodyParameters: nil,
 										  bodyEncoding: .urlEncoding,
 										  urlParameters: [
-											"api_key": MovieNetworkManager.MovieAPIKey,
+											"api_key": MovieNetworkSettings.APIKey,
 											"append_to_response": "credits"
 										  ])
 			default:

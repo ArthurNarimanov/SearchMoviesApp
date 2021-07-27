@@ -7,12 +7,10 @@
 
 import Foundation
 
-public enum PosterAPI {
+/// Setting up to receive posters
+public enum PosterAPI: EndPointType {
 	case middleImage(path: String)
 	case largeImage(path: String)
-}
-
-extension PosterAPI: EndPointType {
 	
 	var environmentBaseURL : String {
 		return "https://image.tmdb.org/t/p/"

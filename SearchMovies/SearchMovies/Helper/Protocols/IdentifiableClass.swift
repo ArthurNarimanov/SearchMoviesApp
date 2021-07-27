@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// Sets the identifier by the class name
 protocol IdentifiableClass: AnyObject {
 	static var id: String { get }
 }

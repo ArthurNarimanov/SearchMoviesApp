@@ -12,10 +12,11 @@ protocol MainViewProtocol: class {
 	func pushView(_ view: UIViewController)
 }
 
-class MainViewController: UIViewController, MainViewProtocol {
-	
+class MoviesViewController: UIViewController, MainViewProtocol {
+	//	MARK: - Public Properties
 	var presenter: MainPresenterProtocol!
-
+	
+	//	MARK: - Private Properties
 	private let collectionView: UICollectionView = {
 		let layout = UICollectionViewFlowLayout()
 		layout.sectionHeadersPinToVisibleBounds = true
@@ -33,16 +34,19 @@ class MainViewController: UIViewController, MainViewProtocol {
 		setupUI()
 	}
 	
+	//	MARK: - Public Methods
 	func updateContent() {
 		collectionView.reloadData()
 	}
 	
 	func pushView(_ view: UIViewController) {
-		self.navigationController?.pushViewController(view, animated: true)
+		guard let nc = navigationController else { return }
+		nc.pushViewController(view, animated: true)
 	}
 }
 
-private extension MainViewController {
+//	MARK: - Private Methods
+private extension MoviesViewController {
 	func setupUI() {
 		title = "New Movies"
 		view.backgroundColor = .systemYellow
