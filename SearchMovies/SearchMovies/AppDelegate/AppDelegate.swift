@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	func application(_ application: UIApplication,
 					 didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-		let vc = MainBulder.getMainVC()
+		let vc = MovieBuilder.getMoviesVC()
 		let nc = UINavigationController(rootViewController: vc)
 		let frame = UIScreen.main.bounds
 		
@@ -24,5 +24,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		
 		return true
 	}
-
+	
 }

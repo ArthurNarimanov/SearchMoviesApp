@@ -9,14 +9,14 @@ import Foundation
 
 protocol NetworkRouterProtocol: class {
 	associatedtype EndPoint: EndPointType
-	func request(_ route: EndPoint, completion: @escaping NetworkRouterComplection)
+	func request(_ route: EndPoint, completion: @escaping NetworkRouterCompletion)
 	func cancel()
 }
 
-class NetworkRouter<EndPoint: EndPointType>: NetworkRouterProtocol {
+final class NetworkRouter<EndPoint: EndPointType>: NetworkRouterProtocol {
 	private var task: URLSessionTask?
 	
-	func request(_ route: EndPoint, completion: @escaping NetworkRouterComplection){
+	func request(_ route: EndPoint, completion: @escaping NetworkRouterCompletion){
 		
 		let session = URLSession.shared
 		do {

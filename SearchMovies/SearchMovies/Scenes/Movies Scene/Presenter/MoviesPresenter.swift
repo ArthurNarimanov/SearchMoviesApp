@@ -7,21 +7,21 @@
 
 import UIKit
 
-protocol BasePresenter: class {
-	func viewIsReady()
-}
-
-protocol MainPresenterProtocol: BasePresenter, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+protocol MainPresenterProtocol: BaseViewControllerProtocol,
+								UICollectionViewDelegateFlowLayout,
+								UICollectionViewDataSource {
 	func getCellId() -> String
 	func getCellType() -> AnyClass
 }
 
-class MainPresenter: NSObject, MainPresenterProtocol {
+final class MoviesPresenter: NSObject, MainPresenterProtocol {
 	
+	//	MARK: - Public Properties
 	unowned var view: MainViewProtocol!
 	var networkManager: MovieNetworkManagerProtocol!
 	var posterNetworkManager: PosterNetworkProtocol!
 	
+	//	MARK: - Private Properties
 	private var isLoadingPage: Bool = false
 	private var page: Int = 1
 	private var pageTotal: Int = 1
@@ -32,7 +32,7 @@ class MainPresenter: NSObject, MainPresenterProtocol {
 		}
 	}
 	
-// MARK: - MainPresenterProtocol
+	// MARK: - MainPresenterProtocol
 	func getCellType() -> AnyClass {
 		return CardViewWithRatingCell.self
 	}
@@ -46,17 +46,24 @@ class MainPresenter: NSObject, MainPresenterProtocol {
 	}
 }
 
-extension MainPresenter {
-	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//	MARK: - UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
+extension MoviesPresenter {
+	func collectionView(_ collectionView: UICollectionView,
+						numberOfItemsInSection section: Int) -> Int {
 		return movies.count
 	}
 	
-	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardViewWithRatingCell.id,
-													  for: indexPath) as! CardViewWithRatingCell
+	func collectionView(_ collectionView: UICollectionView,
+						cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		
+		guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardViewWithRatingCell.id,
+															for: indexPath) as? CardViewWithRatingCell else {
+			return UICollectionViewCell()
+		}
+		
 		let movie = movies[indexPath.item]
 		let model: CardViewWithRatingModelProtocol = CardViewWithRatingModel(rating: movie._rating,
-																			 title: movie.title ?? "",
+																			 title: movie._title,
 																			 poster: #imageLiteral(resourceName: "notImage"))
 		
 		posterNetworkManager.getMiddleImage(by: movie.posterPath ?? "") { (data, _) in
@@ -64,14 +71,14 @@ extension MainPresenter {
 				cell.setPoster(by: poster)
 			}
 		}
-
+		
 		cell.content(by: model)
 		return cell
 	}
 	
 	func collectionView(_ collectionView: UICollectionView,
-							layout collectionViewLayout: UICollectionViewLayout,
-							sizeForItemAt indexPath: IndexPath) -> CGSize {
+						layout collectionViewLayout: UICollectionViewLayout,
+						sizeForItemAt indexPath: IndexPath) -> CGSize {
 		let width: CGFloat = (UIScreen.main.bounds.width - 50) / 3
 		let height: CGFloat = width * 1.5 + 40
 		return CGSize(width: width, height: height)
@@ -79,7 +86,7 @@ extension MainPresenter {
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		let id = movies[indexPath.item].id
-		let detailViewController = MainBulder.getDetailMovieVC(by: id)
+		let detailViewController = MovieBuilder.getDetailMovieVC(by: id)
 		view.pushView(detailViewController)
 	}
 	
@@ -95,13 +102,11 @@ extension MainPresenter {
 }
 
 //MARK: - Private Methods
-private extension MainPresenter {
+private extension MoviesPresenter {
 	/// Load New Movies by page
 	func loadMovies(by page: Int) {
 		isLoadingPage = true
 		networkManager.getNewMovies(page: page) { [weak self] (moviesApi, result) in
-			DispatchQueue.main.async {
-			
 			guard let _self = self,
 				  let moviesApi = moviesApi,
 				  let moves = moviesApi.movies else {
@@ -109,11 +114,11 @@ private extension MainPresenter {
 				self?.page -= 1
 				return
 			}
-				_self.movies.append(contentsOf: moves)
-				_self.pageTotal = moviesApi._totalPages
-				_self.page = moviesApi.page
-				_self.isLoadingPage = false
-			}
+			
+			_self.movies.append(contentsOf: moves)
+			_self.pageTotal = moviesApi._totalPages
+			_self.page = moviesApi.page
+			_self.isLoadingPage = false
 		}
 	}
 }

@@ -7,15 +7,12 @@
 
 import Foundation
 
-public enum MovieApi {
+public enum MovieApi: EndPointType {
 	case recommended(id: Int)
 	case popular(page: Int)
 	case newMovies(page: Int)
 	case video(id: Int)
 	case movie(id: Int)
-}
-
-extension MovieApi: EndPointType {
 	
 	var environmentBaseURL : String {
 		switch MovieNetworkManager.environment {

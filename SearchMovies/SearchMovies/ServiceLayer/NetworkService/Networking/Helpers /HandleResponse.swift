@@ -9,7 +9,7 @@ import Foundation
 
 struct HandleResponse {
 	///Check Responce Status by status code
-	static func getNetworkResponceResult(by statusCode: Int) -> NetworkResult<NetworkResponseResult> {
+	static func getNetworkResponseResult(by statusCode: Int) -> NetworkResult<NetworkResponseResult> {
 		switch statusCode {
 			case 200 ... 299: return .success
 			case 400 ... 500: return .failure(NetworkResponseResult.authenticationError)

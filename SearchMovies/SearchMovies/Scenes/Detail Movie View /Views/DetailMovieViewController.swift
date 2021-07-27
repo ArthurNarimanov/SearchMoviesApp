@@ -13,9 +13,10 @@ protocol DetailMovieViewProtocol: class {
 }
 
 class DetailMovieViewController: UIViewController, DetailMovieViewProtocol {
-	
+//	MARK: - Public Properties
 	var presenter: DetailMoviePresenterProtocol!
 	
+	//	MARK: - Private Properties
 	private let scrollView: UIScrollView = {
 		let scrollView = UIScrollView()
 		scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -118,17 +119,18 @@ class DetailMovieViewController: UIViewController, DetailMovieViewProtocol {
 		return collectionView
 	}()
 	
+	//	MARK: - Life cycle
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupUI()
 	}
 	
+	//	MARK: - Public Methods
 	func updateData() {
 		guard let movie = presenter.movie else { return }
 		titleLabel.text = movie.title
 		aboutSubtitle.text = movie.overview
-		let rating: Double = movie.rating ?? 0
-		ratingView.setGrade(by: Int(rating * 10))
+		ratingView.setGrade(by: movie._rating)
 		actorsTitle.isHidden = movie.credits?.cast.isEmpty ?? true
 		aboutTitle.isHidden = movie.overview?.isEmpty ?? true
 		collectionView.reloadData()
@@ -139,6 +141,7 @@ class DetailMovieViewController: UIViewController, DetailMovieViewProtocol {
 	}
 }
 
+//	MARK: - Private Methods
 private extension DetailMovieViewController {
 	func setupUI() {
 		view.addSubview(scrollView)

@@ -8,14 +8,14 @@
 import UIKit
 
 protocol Buildable {
-	static func getMainVC() -> UIViewController
+	static func getMoviesVC() -> UIViewController
 	static func getDetailMovieVC(by id: Int) -> UIViewController
 }
 
-struct MainBulder: Buildable {
-	static func getMainVC() -> UIViewController {
-		let vc = MainViewController()
-		let presenter = MainPresenter()
+struct MovieBuilder: Buildable {
+	static func getMoviesVC() -> UIViewController {
+		let vc = MoviesViewController()
+		let presenter = MoviesPresenter()
 		presenter.networkManager = MovieNetworkManager()
 		presenter.view = vc
 		presenter.posterNetworkManager = PosterNetworkManager()

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum NetworkResult<String> {
+public enum NetworkResult<String> {
 	case success
 	case failure(String)
 }
@@ -34,7 +34,7 @@ public enum HTTPTask {
 
 public enum NetworkError: String, Error {
 	case parametersNil = "Parameters were nil."
-	case encodingFailed = "Parameter encoding dailed."
+	case encodingFailed = "Parameter encoding failed."
 	case missingURL = "URL is nil."
 }
 

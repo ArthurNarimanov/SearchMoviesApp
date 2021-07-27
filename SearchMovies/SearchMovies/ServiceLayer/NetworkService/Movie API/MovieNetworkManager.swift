@@ -21,26 +21,28 @@ struct MovieNetworkManager: MovieNetworkManagerProtocol {
 	
 	func getNewMovies(page: Int, completion: @escaping (_ movie: MovieApiResponse?, _ error: NetworkResponseResult?)->()) {
 		router.request(.newMovies(page: page)) { (data, response, error) in
-			if error != nil {
-				completion(nil, NetworkResponseResult.checkNetConnection)
-			}
-			
-			if let response = response as? HTTPURLResponse {
-				let result = HandleResponse.getNetworkResponceResult(by: response.statusCode)
-				switch result {
-					case .success:
-						guard let responseData = data else {
-							completion(nil, NetworkResponseResult.noData)
-							return
-						}
-						do {
-							let apiResponse = try JSONDecoder().decode(MovieApiResponse.self, from: responseData)
-							completion(apiResponse, nil)
-						} catch {
-							completion(nil, NetworkResponseResult.unableToDecode)
-						}
-					case .failure(let networkFailureError):
-						completion(nil, networkFailureError)
+			DispatchQueue.main.async {
+				if error != nil {
+					completion(nil, NetworkResponseResult.checkNetConnection)
+				}
+				
+				if let response = response as? HTTPURLResponse {
+					let result = HandleResponse.getNetworkResponseResult(by: response.statusCode)
+					switch result {
+						case .success:
+							guard let responseData = data else {
+								completion(nil, NetworkResponseResult.noData)
+								return
+							}
+							do {
+								let apiResponse = try JSONDecoder().decode(MovieApiResponse.self, from: responseData)
+								completion(apiResponse, nil)
+							} catch {
+								completion(nil, NetworkResponseResult.unableToDecode)
+							}
+						case .failure(let networkFailureError):
+							completion(nil, networkFailureError)
+					}
 				}
 			}
 		}
@@ -48,12 +50,13 @@ struct MovieNetworkManager: MovieNetworkManagerProtocol {
 	
 	func getMovie(by id: Int, completion: @escaping (Movie?, NetworkResponseResult?) -> ()) {
 		router.request(.movie(id: id)) { (data, response, error) in
-			if error != nil {
-				completion(nil, NetworkResponseResult.checkNetConnection)
-			}
 			DispatchQueue.main.async {
+				if error != nil {
+					completion(nil, NetworkResponseResult.checkNetConnection)
+				}
+				
 				if let response = response as? HTTPURLResponse {
-					let result = HandleResponse.getNetworkResponceResult(by: response.statusCode)
+					let result = HandleResponse.getNetworkResponseResult(by: response.statusCode)
 					switch result {
 						case .success:
 							guard let responseData = data else {

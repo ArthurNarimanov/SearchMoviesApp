@@ -7,29 +7,11 @@
 
 import UIKit
 
-protocol CardViewWithRatingModelProtocol: CardViewModelProtocol {
-	var rating: Int { get set }
-}
-
-typealias VoidImageClosure = (UIImage?) -> Void
-
-struct CardViewWithRatingModel: CardViewWithRatingModelProtocol {
-	var rating: Int
-	var poster: UIImage?
-	var title: String
-	
-	internal init(rating: Int, title: String, poster: UIImage) {
-		self.rating = rating
-		self.title = title
-		self.poster = poster
-	}
-}
-
 /// UICollectionViewCell
 /// CardViewCell
-class CardViewWithRatingCell: CardViewCell {
+final class CardViewWithRatingCell: CardViewCell {
 	
-	fileprivate let rating: RatingView = {
+	private let rating: RatingView = {
 		let rating = RatingView()
 		rating.translatesAutoresizingMaskIntoConstraints = false
 		return rating
@@ -44,7 +26,7 @@ class CardViewWithRatingCell: CardViewCell {
 		assertionFailure("init(coder:) has not been implemented")
 		super.init(coder: coder)
 	}
-	
+	//MARK: - Public Methods
 	public func content(by model: CardViewWithRatingModelProtocol) {
 		title.text = model.title
 		rating.setGrade(by: model.rating)
@@ -56,6 +38,7 @@ class CardViewWithRatingCell: CardViewCell {
 	}
 }
 
+//MARK: - Private Methods
 private extension CardViewWithRatingCell {
 	func setupUI() {
 		addSubview(rating)

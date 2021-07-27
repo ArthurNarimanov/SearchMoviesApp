@@ -9,6 +9,6 @@ import Foundation
 
 public typealias HTTPHeaders = [String: String]
 public typealias Parameters = [String: Any]
-public typealias NetworkRouterComplection = (_ data: Data?,
+public typealias NetworkRouterCompletion = (_ data: Data?,
 											 _ responce: URLResponse?,
 											 _ error: Error?) ->()

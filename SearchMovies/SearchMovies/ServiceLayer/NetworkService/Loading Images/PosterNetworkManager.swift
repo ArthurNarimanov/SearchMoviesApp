@@ -21,7 +21,7 @@ struct PosterNetworkManager: PosterNetworkProtocol {
 			}
 			DispatchQueue.main.async {
 				if let response = response as? HTTPURLResponse {
-					let result = HandleResponse.getNetworkResponceResult(by: response.statusCode)
+					let result = HandleResponse.getNetworkResponseResult(by: response.statusCode)
 					switch result {
 						case .success:
 							guard let responseData = data else {
